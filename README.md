@@ -1,7 +1,3 @@
-# msa-insurance
-Microservice architecture Insurance System
-
-
 # MicroSerice Architecure for Insurance System Example
 
 An example of insurance system using microservice architecture.
