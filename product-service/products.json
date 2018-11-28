@@ -1,0 +1,4 @@
+[{ "productId": "100001", "name": "Product A", "description": "description ABC", "price": 100.1},
+ { "productId": "100002", "name": "Product B", "description": "description ABC", "price": 100.1},
+ { "productId": "200001", "name": "Product C", "description": "description ABC", "price": 100.1},
+ { "productId": "200002", "name": "Product D", "description": "description ABC", "price": 100.1}]
