@@ -1,11 +1,12 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "title" : "insurance-crm-api",
+    "title" : "Insurance",
     "description" : "This is a set of APIs for Insurance Domain. You can find out more information about implementation at [https://github.com/holodragon/msa-insurance](https://github.com/holodragon/msa-insurance).",
     "termsOfService" : "http://swagger.io/terms/",
     "contact" : {
-      "email" : "apiteam@swagger.io"
+      "name" : "Jason Peng",
+      "email" : "hpeng@redhat.com"
     },
     "license" : {
       "name" : "Apache 2.0",
@@ -16,265 +17,127 @@
   "host" : "petstore.swagger.io",
   "basePath" : "/v2",
   "schemes" : [ "https", "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
   "paths" : {
-    "/pet/{petId}/uploadImage" : {
-      "post" : {
-        "tags" : [ "pet" ],
-        "summary" : "uploads an image",
-        "description" : "",
-        "operationId" : "uploadFile",
-        "consumes" : [ "multipart/form-data" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "petId",
-          "in" : "path",
-          "description" : "ID of pet to update",
-          "required" : true,
-          "type" : "integer",
-          "format" : "int64"
-        }, {
-          "name" : "additionalMetadata",
-          "in" : "formData",
-          "description" : "Additional data to pass to server",
-          "required" : false,
-          "type" : "string"
-        }, {
-          "name" : "file",
-          "in" : "formData",
-          "description" : "file to upload",
-          "required" : false,
-          "type" : "file"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/ApiResponse"
-            }
-          }
-        },
-        "security" : [ {
-          "petstore_auth" : [ "write:pets", "read:pets" ]
-        } ]
-      }
-    },
-    "/user" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Create user",
-        "description" : "This can only be done by the logged in user.",
-        "operationId" : "createUser",
-        "produces" : [ "application/xml", "application/json" ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "description" : "Created user object",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        }
-      }
-    },
-    "/user/createWithArray" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Creates list of users with given input array",
-        "description" : "",
-        "operationId" : "createUsersWithArrayInput",
-        "produces" : [ "application/xml", "application/json" ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "description" : "List of user object",
-          "required" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/definitions/User"
-            }
-          }
-        } ],
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        }
-      }
-    },
-    "/user/createWithList" : {
-      "post" : {
-        "tags" : [ "user" ],
-        "summary" : "Creates list of users with given input array",
-        "description" : "",
-        "operationId" : "createUsersWithListInput",
-        "produces" : [ "application/xml", "application/json" ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "description" : "List of user object",
-          "required" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "$ref" : "#/definitions/User"
-            }
-          }
-        } ],
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        }
-      }
-    },
-    "/user/login" : {
+    "/policies" : {
       "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Logs user into the system",
-        "description" : "",
-        "operationId" : "loginUser",
-        "produces" : [ "application/xml", "application/json" ],
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "query",
-          "description" : "The user name for login",
-          "required" : true,
-          "type" : "string"
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "description" : "The password for login in clear text",
-          "required" : true,
-          "type" : "string"
-        } ],
+        "summary" : "List All Policies",
+        "description" : "Gets a list of all `Policy` entities.",
+        "operationId" : "getPolicies",
         "responses" : {
           "200" : {
-            "description" : "successful operation",
+            "description" : "Successful response.",
             "schema" : {
-              "type" : "string"
-            },
-            "headers" : {
-              "X-Rate-Limit" : {
-                "description" : "calls per hour allowed by the user",
-                "type" : "integer",
-                "format" : "int32"
-              },
-              "X-Expires-After" : {
-                "description" : "date in UTC when token expires",
-                "type" : "string",
-                "format" : "date-time"
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Policy"
               }
             }
-          },
-          "400" : {
-            "description" : "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/logout" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Logs out current logged in user session",
-        "description" : "",
-        "operationId" : "logoutUser",
-        "produces" : [ "application/xml", "application/json" ],
-        "responses" : {
-          "default" : {
-            "description" : "successful operation"
-          }
-        }
-      }
-    },
-    "/user/{username}" : {
-      "get" : {
-        "tags" : [ "user" ],
-        "summary" : "Get user by user name",
-        "description" : "",
-        "operationId" : "getUserByName",
-        "produces" : [ "application/xml", "application/json" ],
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "description" : "The name that needs to be fetched. Use user1 for testing. ",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "Invalid username supplied"
-          },
-          "404" : {
-            "description" : "User not found"
           }
         }
       },
-      "put" : {
-        "tags" : [ "user" ],
-        "summary" : "Updated user",
-        "description" : "This can only be done by the logged in user.",
-        "operationId" : "updateUser",
-        "produces" : [ "application/xml", "application/json" ],
+      "post" : {
+        "summary" : "Create a Policy",
+        "description" : "Creates a new instance of a `Policy`.",
+        "operationId" : "createPolicy",
         "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "description" : "name that need to be updated",
-          "required" : true,
-          "type" : "string"
-        }, {
           "name" : "body",
           "in" : "body",
-          "description" : "Updated user object",
+          "description" : "A new `Policy` to be created.",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/User"
+            "$ref" : "#/definitions/Policy"
           }
         } ],
         "responses" : {
-          "400" : {
-            "description" : "Invalid user supplied"
-          },
-          "404" : {
-            "description" : "User not found"
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "user" ],
-        "summary" : "Delete user",
-        "description" : "This can only be done by the logged in user.",
-        "operationId" : "deleteUser",
-        "produces" : [ "application/xml", "application/json" ],
-        "parameters" : [ {
-          "name" : "username",
-          "in" : "path",
-          "description" : "The name that needs to be deleted",
-          "required" : true,
-          "type" : "string"
-        } ],
-        "responses" : {
-          "400" : {
-            "description" : "Invalid username supplied"
-          },
-          "404" : {
-            "description" : "User not found"
+          "201" : {
+            "description" : "Successful response."
           }
         }
       }
     },
-    "/product" : {
+    "/coverages" : {
+      "get" : {
+        "summary" : "List All coverages",
+        "description" : "Gets a list of all `coverage` entities.",
+        "operationId" : "getcoverages",
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Coverage"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a coverage",
+        "description" : "Creates `Coverage`. support collection of `Coverage`",
+        "operationId" : "createcoverage",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "`Coverage`(s) to be created.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/Coverage"
+            }
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Successful response."
+          }
+        }
+      }
+    },
+    "/agents" : {
+      "get" : {
+        "summary" : "List All Agents",
+        "description" : "Gets a list of all `Agent` entities.",
+        "operationId" : "getAgents",
+        "responses" : {
+          "200" : {
+            "description" : "Successful response - returns an array of `Agent` entities.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Agent"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create Agent",
+        "description" : "Creates `Agent`. support collection of Agents",
+        "operationId" : "createAgent",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "`Agent`(s) to be created.",
+          "required" : true,
+          "schema" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/definitions/Agent"
+            }
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Successful response. - Agents Created."
+          }
+        }
+      }
+    },
+    "/products" : {
       "get" : {
         "summary" : "List All Products",
         "description" : "Gets a list of all `Product` entities.",
@@ -320,7 +183,281 @@
         }
       }
     },
-    "/product/{productId}" : {
+    "/users" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "Create user",
+        "description" : "This can only be done by the logged in user.",
+        "operationId" : "createUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "Created user object",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/customers" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Customer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agents/{agentId}" : {
+      "get" : {
+        "summary" : "Get a Agent",
+        "description" : "Gets the details of an`Agent`.",
+        "operationId" : "getAgent",
+        "parameters" : [ {
+          "name" : "agentId",
+          "in" : "path",
+          "description" : "A unique identifier for a `Agent`.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "$ref" : "#/definitions/Agent"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a Agent",
+        "description" : "Updates an existing `Agent`.",
+        "operationId" : "updateAgent",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "Updated `Agent` information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Agent"
+          }
+        }, {
+          "name" : "agentId",
+          "in" : "path",
+          "description" : "A unique identifier for a `Agent`.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a Agent",
+        "description" : "Deletes an existing `Agent`.",
+        "operationId" : "deleteAgent",
+        "parameters" : [ {
+          "name" : "agentId",
+          "in" : "path",
+          "description" : "A unique identifier for a `Agent`.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Successful response."
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "agentId",
+        "in" : "path",
+        "description" : "A unique identifier for a `Agent`.",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/coverages/{coverageId}" : {
+      "get" : {
+        "summary" : "Get a coverage",
+        "description" : "Gets the details of a single instance of a `coverage`.",
+        "operationId" : "getcoverage",
+        "parameters" : [ {
+          "name" : "coverageId",
+          "in" : "path",
+          "description" : "A unique identifier for a `coverage`.",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response - returns a single `coverage`.",
+            "schema" : {
+              "$ref" : "#/definitions/Coverage"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a coverage",
+        "description" : "Updates an existing `coverage`.",
+        "operationId" : "updatecoverage",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "Updated `coverage` information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Coverage"
+          }
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Successful response."
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a coverage",
+        "description" : "Deletes an existing `coverage`.",
+        "operationId" : "deletecoverage",
+        "responses" : {
+          "204" : {
+            "description" : "Successful response."
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "coverageId",
+        "in" : "path",
+        "description" : "A unique identifier for a `coverage`.",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/customers/{customerId}" : { },
+    "/customers/{customerId}/applications" : { },
+    "/customers/{customerId}/applications/{applicationId}" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "customerId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "applicationId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "customerId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/policies/{policyId}" : {
+      "get" : {
+        "summary" : "Get a Policy",
+        "description" : "Gets the details of a single instance of a `Policy`.",
+        "operationId" : "getPolicy",
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "$ref" : "#/definitions/Policy"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a Policy",
+        "description" : "Updates an existing `Policy`.",
+        "operationId" : "updatePolicy",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "description" : "Updated `Policy` information.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Policy"
+          }
+        } ],
+        "responses" : {
+          "202" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a Policy",
+        "description" : "Deletes an existing `Policy`.",
+        "operationId" : "deletePolicy",
+        "responses" : {
+          "204" : {
+            "description" : "Successful response."
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "policyId",
+        "in" : "path",
+        "description" : "A unique identifier for a `Policy`.",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/policies/{policyId}/coverages" : {
+      "get" : {
+        "summary" : "Get Coverages",
+        "description" : "Get `Coverage`(s) under the `Policy`",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Coverage"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/products/{productId}" : {
       "get" : {
         "summary" : "Get a Product",
         "description" : "Gets the details of a single instance of a `Product`.",
@@ -371,34 +508,7 @@
         "type" : "string"
       } ]
     },
-    "/product/findByName" : {
-      "get" : {
-        "summary" : "find product by name",
-        "description" : "Find product by single name of product.",
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "name",
-          "in" : "query",
-          "description" : "name of product",
-          "type" : "string"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "successful operation",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Product"
-              }
-            }
-          },
-          "400" : {
-            "description" : "Invalid status value"
-          }
-        }
-      }
-    },
-    "/product/{productId}/uploadImage" : {
+    "/products/{productId}/uploadImage" : {
       "post" : {
         "summary" : "uploads an image",
         "consumes" : [ "multipart/form-data" ],
@@ -407,6 +517,11 @@
           "name" : "additionalMetadata",
           "in" : "formData",
           "description" : "Additional data to pass to server",
+          "type" : "string"
+        }, {
+          "name" : "productId",
+          "in" : "path",
+          "required" : true,
           "type" : "string"
         } ],
         "responses" : {
@@ -419,102 +534,13 @@
         }
       }
     },
-    "/policies" : {
+    "/products/{productId}/coverages" : {
       "get" : {
-        "summary" : "List All Policies",
-        "description" : "Gets a list of all `Policy` entities.",
-        "operationId" : "getPolicies",
+        "summary" : "Get Coverages",
+        "description" : "Get `Coverage`(s) under the `Product`",
         "responses" : {
           "200" : {
-            "description" : "Successful response - returns an array of `Policy` entities.",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Policy"
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Create a Policy",
-        "description" : "Creates a new instance of a `Policy`.",
-        "operationId" : "createPolicy",
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "description" : "A new `Policy` to be created.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Policy"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "Successful response."
-          }
-        }
-      }
-    },
-    "/policies/{policyId}" : {
-      "get" : {
-        "summary" : "Get a Policy",
-        "description" : "Gets the details of a single instance of a `Policy`.",
-        "operationId" : "getPolicy",
-        "responses" : {
-          "200" : {
-            "description" : "Successful response - returns a single `Policy`.",
-            "schema" : {
-              "$ref" : "#/definitions/Policy"
-            }
-          }
-        }
-      },
-      "put" : {
-        "summary" : "Update a Policy",
-        "description" : "Updates an existing `Policy`.",
-        "operationId" : "updatePolicy",
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "description" : "Updated `Policy` information.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Policy"
-          }
-        } ],
-        "responses" : {
-          "202" : {
-            "description" : "Successful response."
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Delete a Policy",
-        "description" : "Deletes an existing `Policy`.",
-        "operationId" : "deletePolicy",
-        "responses" : {
-          "204" : {
-            "description" : "Successful response."
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "policyId",
-        "in" : "path",
-        "description" : "A unique identifier for a `Policy`.",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/coverages" : {
-      "get" : {
-        "summary" : "List All coverages",
-        "description" : "Gets a list of all `coverage` entities.",
-        "operationId" : "getcoverages",
-        "responses" : {
-          "200" : {
-            "description" : "Successful response - returns an array of `coverage` entities.",
+            "description" : "Successful response.",
             "schema" : {
               "type" : "array",
               "items" : {
@@ -523,120 +549,158 @@
             }
           }
         }
-      },
-      "post" : {
-        "summary" : "Create a coverage",
-        "description" : "Creates a new instance of a `coverage`.",
-        "operationId" : "createcoverage",
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "description" : "A new `coverage` to be created.",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Coverage"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "Successful response."
-          }
-        }
       }
     },
-    "/coverages/{coverageId}" : {
+    "/users/{userId}" : {
       "get" : {
-        "summary" : "Get a coverage",
-        "description" : "Gets the details of a single instance of a `coverage`.",
-        "operationId" : "getcoverage",
+        "tags" : [ "user" ],
+        "summary" : "Get user by user name",
+        "description" : "",
+        "operationId" : "getUserByName",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
           "200" : {
-            "description" : "Successful response - returns a single `coverage`.",
+            "description" : "successful operation",
             "schema" : {
-              "$ref" : "#/definitions/Coverage"
+              "$ref" : "#/definitions/User"
             }
+          },
+          "400" : {
+            "description" : "Invalid username supplied"
+          },
+          "404" : {
+            "description" : "User not found"
           }
         }
       },
       "put" : {
-        "summary" : "Update a coverage",
-        "description" : "Updates an existing `coverage`.",
-        "operationId" : "updatecoverage",
+        "tags" : [ "user" ],
+        "summary" : "Updated user",
+        "description" : "This can only be done by the logged in user.",
+        "operationId" : "updateUser",
+        "produces" : [ "application/json" ],
         "parameters" : [ {
           "name" : "body",
           "in" : "body",
-          "description" : "Updated `coverage` information.",
+          "description" : "Updated user object",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Coverage"
+            "$ref" : "#/definitions/User"
           }
+        }, {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
         } ],
         "responses" : {
-          "202" : {
-            "description" : "Successful response."
+          "200" : {
+            "description" : "Successd.",
+            "schema" : {
+              "type" : "string"
+            }
+          },
+          "400" : {
+            "description" : "Invalid user supplied"
+          },
+          "404" : {
+            "description" : "User not found"
           }
         }
       },
       "delete" : {
-        "summary" : "Delete a coverage",
-        "description" : "Deletes an existing `coverage`.",
-        "operationId" : "deletecoverage",
+        "tags" : [ "user" ],
+        "summary" : "Delete user",
+        "description" : "This can only be done by the logged in user.",
+        "operationId" : "deleteUser",
+        "produces" : [ "application/xml", "application/json" ],
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
         "responses" : {
-          "204" : {
-            "description" : "Successful response."
+          "400" : {
+            "description" : "Invalid username supplied"
+          },
+          "404" : {
+            "description" : "User not found"
           }
         }
-      },
-      "parameters" : [ {
-        "name" : "coverageId",
-        "in" : "path",
-        "description" : "A unique identifier for a `coverage`.",
-        "required" : true,
-        "type" : "string"
-      } ]
+      }
+    },
+    "/users/{userId}/login" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Logs user into the system",
+        "description" : "",
+        "operationId" : "loginUser",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "The user name for login",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "The password for login in clear text",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation",
+            "schema" : {
+              "type" : "string"
+            },
+            "headers" : {
+              "X-Rate-Limit" : {
+                "description" : "calls per hour allowed by the user",
+                "type" : "integer",
+                "format" : "int32"
+              },
+              "X-Expires-After" : {
+                "description" : "date in UTC when token expires",
+                "type" : "string",
+                "format" : "date-time"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/users/{userId}/logout" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "Logs out current logged in user session",
+        "description" : "",
+        "operationId" : "logoutUser",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "default" : {
+            "description" : "successful operation"
+          }
+        }
+      }
     }
   },
   "definitions" : {
-    "Order" : {
-      "type" : "object",
-      "properties" : {
-        "id" : {
-          "format" : "int64",
-          "type" : "integer"
-        },
-        "petId" : {
-          "format" : "int64",
-          "type" : "integer"
-        },
-        "quantity" : {
-          "format" : "int32",
-          "type" : "integer"
-        },
-        "shipDate" : {
-          "format" : "date-time",
-          "type" : "string"
-        },
-        "status" : {
-          "description" : "Order Status",
-          "enum" : [ "placed", "approved", "delivered" ],
-          "type" : "string"
-        },
-        "complete" : {
-          "default" : false,
-          "type" : "boolean"
-        }
-      },
-      "xml" : {
-        "name" : "Order"
-      }
-    },
     "User" : {
       "type" : "object",
       "properties" : {
-        "id" : {
-          "format" : "int64",
-          "type" : "integer"
-        },
         "username" : {
           "type" : "string"
         },
@@ -650,6 +714,7 @@
           "type" : "string"
         },
         "password" : {
+          "format" : "password",
           "type" : "string"
         },
         "phone" : {
@@ -659,11 +724,15 @@
           "format" : "int32",
           "description" : "User Status",
           "type" : "integer"
+        },
+        "userId" : {
+          "type" : "string"
         }
       },
       "xml" : {
         "name" : "User"
-      }
+      },
+      "example" : "{\n    \"username\": \"some text\",\n    \"firstName\": \"some text\",\n    \"lastName\": \"some text\",\n    \"email\": \"some text\",\n    \"password\": \"**********\",\n    \"phone\": \"some text\",\n    \"userStatus\": 92,\n    \"userId\": \"some text\"\n}"
     },
     "ApiResponse" : {
       "type" : "object",
@@ -704,7 +773,7 @@
           "type" : "string"
         }
       },
-      "example" : "{ \"productId\": \"100001\", \"name\": \"Product A\", \"description\": \"description ABC\", \"price\": 100.1}"
+      "example" : "{\n    \"name\": \"some text\",\n    \"description\": \"some text\",\n    \"price\": 66.26,\n    \"productId\": \"some text\"\n}"
     },
     "Policy" : {
       "description" : "Insurance Policy Domain APIs",
@@ -740,8 +809,12 @@
           "items" : {
             "$ref" : "#/definitions/Coverage"
           }
+        },
+        "policyId" : {
+          "type" : "string"
         }
-      }
+      },
+      "example" : "{\n    \"policyNo\": \"some text\",\n    \"effectiveDate\": \"some text\",\n    \"expireDate\": \"some text\",\n    \"paymentOption\": \"some text\",\n    \"amount\": 89.9,\n    \"active\": true,\n    \"coverage\": [\n        {\n            \"coverageNo\": \"some text\",\n            \"name\": \"some text\",\n            \"type\": \"some text\",\n            \"description\": \"some text\",\n            \"coverageId\": \"some text\"\n        },\n        {\n            \"coverageNo\": \"some text\",\n            \"name\": \"some text\",\n            \"type\": \"some text\",\n            \"description\": \"some text\",\n            \"coverageId\": \"some text\"\n        }\n    ],\n    \"policyId\": \"some text\"\n}"
     },
     "Coverage" : {
       "description" : "Coverage",
@@ -761,8 +834,112 @@
         "description" : {
           "description" : "Description",
           "type" : "string"
+        },
+        "coverageId" : {
+          "type" : "string"
         }
-      }
+      },
+      "example" : "{\n    \"coverageNo\": \"some text\",\n    \"name\": \"some text\",\n    \"type\": \"some text\",\n    \"description\": \"some text\",\n    \"coverageId\": \"some text\"\n}"
+    },
+    "Agent" : {
+      "title" : "Root Type for Agent",
+      "description" : "業務人員Entity",
+      "type" : "object",
+      "properties" : {
+        "agent_no" : {
+          "type" : "string"
+        },
+        "first_name" : {
+          "type" : "string"
+        },
+        "last_name" : {
+          "type" : "string"
+        },
+        "age" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "agentId" : {
+          "type" : "string"
+        }
+      },
+      "example" : "{\n    \"agent_no\": \"some text\",\n    \"first_name\": \"some text\",\n    \"last_name\": \"some text\",\n    \"age\": 91,\n    \"phone\": \"some text\",\n    \"agentId\": \"some text\"\n}"
+    },
+    "Application" : {
+      "required" : [ ],
+      "type" : "object",
+      "properties" : {
+        "applicationId" : {
+          "type" : "string"
+        },
+        "products" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Product"
+          }
+        },
+        "agent" : {
+          "$ref" : "#/definitions/Agent"
+        },
+        "startDate" : {
+          "format" : "date",
+          "type" : "string"
+        },
+        "endDate" : {
+          "format" : "date",
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "example" : "{\n    \"applicationId\": \"some text\",\n    \"products\": [\n        {\n            \"name\": \"some text\",\n            \"description\": \"some text\",\n            \"price\": 2.46,\n            \"productId\": \"some text\"\n        },\n        {\n            \"name\": \"some text\",\n            \"description\": \"some text\",\n            \"price\": 99.94,\n            \"productId\": \"some text\"\n        }\n    ],\n    \"agent\": {\n        \"agent_no\": \"some text\",\n        \"first_name\": \"some text\",\n        \"last_name\": \"some text\",\n        \"age\": 62,\n        \"phone\": \"some text\"\n    },\n    \"startDate\": \"2018-01-17\",\n    \"endDate\": \"2018-01-17\",\n    \"status\": \"some text\"\n}"
+    },
+    "Customer" : {
+      "title" : "Root Type for Customer",
+      "description" : "The root of the Customer type's schema.",
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "first_name" : {
+          "type" : "string"
+        },
+        "last_name" : {
+          "type" : "string"
+        },
+        "age" : {
+          "format" : "int32",
+          "type" : "integer"
+        },
+        "phone" : {
+          "type" : "string"
+        },
+        "birthday" : {
+          "format" : "date",
+          "type" : "string"
+        },
+        "payment" : {
+          "type" : "object"
+        },
+        "medical_status" : {
+          "type" : "object"
+        },
+        "applications" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Application"
+          }
+        },
+        "customerId" : {
+          "type" : "string"
+        }
+      },
+      "example" : "{\n    \"id\": \"some text\",\n    \"first_name\": \"some text\",\n    \"last_name\": \"some text\",\n    \"age\": 65,\n    \"phone\": \"some text\",\n    \"birthday\": \"2018-01-17\",\n    \"payment\": {},\n    \"medical_status\": {},\n    \"applications\": [\n        {\n            \"applicationId\": \"some text\",\n            \"products\": [\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 25.58,\n                    \"productId\": \"some text\"\n                },\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 7.11,\n                    \"productId\": \"some text\"\n                }\n            ],\n            \"agent\": {\n                \"agent_no\": \"some text\",\n                \"first_name\": \"some text\",\n                \"last_name\": \"some text\",\n                \"age\": 79,\n                \"phone\": \"some text\",\n                \"agentId\": \"some text\"\n            },\n            \"startDate\": \"2018-01-17\",\n            \"endDate\": \"2018-01-17\",\n            \"status\": \"some text\"\n        },\n        {\n            \"applicationId\": \"some text\",\n            \"products\": [\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 54.33,\n                    \"productId\": \"some text\"\n                },\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 24.98,\n                    \"productId\": \"some text\"\n                }\n            ],\n            \"agent\": {\n                \"agent_no\": \"some text\",\n                \"first_name\": \"some text\",\n                \"last_name\": \"some text\",\n                \"age\": 18,\n                \"phone\": \"some text\",\n                \"agentId\": \"some text\"\n            },\n            \"startDate\": \"2018-01-17\",\n            \"endDate\": \"2018-01-17\",\n            \"status\": \"some text\"\n        }\n    ],\n    \"customerId\": \"some text\"\n}"
     }
   },
   "securityDefinitions" : {
