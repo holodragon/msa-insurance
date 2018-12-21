@@ -1,9 +1,8 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "title" : "Insurance",
+    "title" : "Insurance-2.0",
     "description" : "This is a set of APIs for Insurance Domain. You can find out more information about implementation at [https://github.com/holodragon/msa-insurance](https://github.com/holodragon/msa-insurance).",
-    "termsOfService" : "http://swagger.io/terms/",
     "contact" : {
       "name" : "Jason Peng",
       "email" : "hpeng@redhat.com"
@@ -14,8 +13,7 @@
     },
     "version" : "1.0.0"
   },
-  "host" : "petstore.swagger.io",
-  "basePath" : "/v2",
+  "basePath" : "/",
   "schemes" : [ "https", "http" ],
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
@@ -695,6 +693,57 @@
           }
         }
       }
+    },
+    "/agents/{agentId}/customers" : {
+      "get" : {
+        "parameters" : [ {
+          "name" : "agentId",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Customer"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agents/{agentId}/products" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Product"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agents/{agentId}/certificates" : {
+      "get" : {
+        "responses" : {
+          "200" : {
+            "description" : "Successful response.",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Certificate"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -864,6 +913,12 @@
         },
         "agentId" : {
           "type" : "string"
+        },
+        "certificates" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Certificate"
+          }
         }
       },
       "example" : "{\n    \"agent_no\": \"some text\",\n    \"first_name\": \"some text\",\n    \"last_name\": \"some text\",\n    \"age\": 91,\n    \"phone\": \"some text\",\n    \"agentId\": \"some text\"\n}"
@@ -940,18 +995,34 @@
         }
       },
       "example" : "{\n    \"id\": \"some text\",\n    \"first_name\": \"some text\",\n    \"last_name\": \"some text\",\n    \"age\": 65,\n    \"phone\": \"some text\",\n    \"birthday\": \"2018-01-17\",\n    \"payment\": {},\n    \"medical_status\": {},\n    \"applications\": [\n        {\n            \"applicationId\": \"some text\",\n            \"products\": [\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 25.58,\n                    \"productId\": \"some text\"\n                },\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 7.11,\n                    \"productId\": \"some text\"\n                }\n            ],\n            \"agent\": {\n                \"agent_no\": \"some text\",\n                \"first_name\": \"some text\",\n                \"last_name\": \"some text\",\n                \"age\": 79,\n                \"phone\": \"some text\",\n                \"agentId\": \"some text\"\n            },\n            \"startDate\": \"2018-01-17\",\n            \"endDate\": \"2018-01-17\",\n            \"status\": \"some text\"\n        },\n        {\n            \"applicationId\": \"some text\",\n            \"products\": [\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 54.33,\n                    \"productId\": \"some text\"\n                },\n                {\n                    \"name\": \"some text\",\n                    \"description\": \"some text\",\n                    \"price\": 24.98,\n                    \"productId\": \"some text\"\n                }\n            ],\n            \"agent\": {\n                \"agent_no\": \"some text\",\n                \"first_name\": \"some text\",\n                \"last_name\": \"some text\",\n                \"age\": 18,\n                \"phone\": \"some text\",\n                \"agentId\": \"some text\"\n            },\n            \"startDate\": \"2018-01-17\",\n            \"endDate\": \"2018-01-17\",\n            \"status\": \"some text\"\n        }\n    ],\n    \"customerId\": \"some text\"\n}"
+    },
+    "Certificate" : {
+      "title" : "Root Type for certificate",
+      "description" : "The root of the certificate type's schema.",
+      "type" : "object",
+      "properties" : {
+        "certificateId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "startDate" : {
+          "format" : "date",
+          "type" : "string"
+        },
+        "endDate" : {
+          "format" : "date",
+          "type" : "string"
+        }
+      },
+      "example" : "{\n    \"certificateId\": \"1234567\",\n    \"name\": \"124\",\n    \"description\":\"12345\",\n    \"startDate\":\"2018/01/01\",\n    \"endDate\":\"2018/12/31\"\n    \n}"
     }
   },
   "securityDefinitions" : {
-    "petstore_auth" : {
-      "type" : "oauth2",
-      "flow" : "implicit",
-      "authorizationUrl" : "https://petstore.swagger.io/oauth/dialog",
-      "scopes" : {
-        "write:pets" : "modify pets in your account",
-        "read:pets" : "read your pets"
-      }
-    },
     "api_key" : {
       "type" : "apiKey",
       "name" : "api_key",
